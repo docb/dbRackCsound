@@ -1,0 +1,25 @@
+{
+  "slug": "dbRackCsound",
+  "name": "dbRackCsound",
+  "version": "2.0.0",
+  "license": "GPL-3.0-or-later",
+  "brand": "docB",
+  "author": "docB",
+  "authorEmail": "",
+  "authorUrl": "https://docb.io",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "CsoundModule",
+      "name": "CsoundModule",
+      "description": "Sound generation with Csound",
+      "tags": [
+        "Oscillator"
+      ]
+    }
+  ]
+}
