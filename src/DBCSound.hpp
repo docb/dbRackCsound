@@ -8,13 +8,13 @@ struct DBCsound {
   MYFLT *out=nullptr;
   Csound *csound;
   DBCsound() {
+    csound=new Csound();
   }
   ~DBCsound() {
     csound->Stop();
     delete csound;
   }
   void initCsound(int ksmps,int nchnls,float sr) {
-    csound=new Csound();
     csound->SetOption((char *)"-n");
     csound->SetOption((char *)"-dm0");
     auto *csoundParams=new CSOUND_PARAMS();
@@ -32,7 +32,7 @@ struct DBCsound {
 
   void resetCsound(int ksmps,int nchnls,float sr) {
     csound->Stop();
-    delete csound;
+    csound->Reset();
     initCsound(ksmps,nchnls,sr);
   }
 
@@ -54,6 +54,14 @@ struct DBCsound {
     return compileError;
   }
 
+  void killInstr(double inst) {
+    INFO("Kill %f",inst);
+    csoundKillInstance(csound->GetCsound(),inst,nullptr,4,1);
+  }
+  void killAllInstr(double inst) {
+    csoundKillInstance(csound->GetCsound(),inst,nullptr,0,1);
+  }
+
   void readScoreEvent(const std::string &e) {
     csound->ReadScore(e.c_str());
   }
@@ -69,6 +77,7 @@ struct DBCsound {
   int getNChnls() {
     return csound->GetNchnls();
   }
+
 
 
 };

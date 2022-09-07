@@ -20,6 +20,30 @@
       "tags": [
         "Oscillator"
       ]
+    },
+    {
+      "slug": "CsoundModule16",
+      "name": "CsoundModulePoly",
+      "description": "Sound generation with Csound",
+      "tags": [
+        "Oscillator"
+      ]
+    },
+    {
+      "slug": "CsoundModuleFX",
+      "name": "CsoundModuleFX",
+      "description": "Sound processing with Csound",
+      "tags": [
+        "Effect"
+      ]
+    },
+    {
+      "slug": "CsoundModuleFX16",
+      "name": "CsoundModuleFXPoly",
+      "description": "Sound processing with Csound",
+      "tags": [
+        "Effect"
+      ]
     }
   ]
 }

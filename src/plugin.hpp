@@ -36,4 +36,32 @@ struct SmallPort : app::SvgPort {
     setSvg(APP->window->loadSvg(asset::plugin(pluginInstance,"res/SmallPort.svg")));
   }
 };
+
+struct DBTextWidget : Widget {
+  std::basic_string<char> fontPath;
+  std::string label;
+  DBTextWidget(const std::string &_label,Vec _pos,Vec _size) {
+    box.pos=_pos;
+    box.size=_size;
+    label=_label;
+    fontPath=asset::plugin(pluginInstance,"res/FreeMonoBold.ttf");
+  }
+
+  void drawLayer(const DrawArgs &args,int layer) override {
+    if(layer==1) {
+      _draw(args);
+    }
+    Widget::drawLayer(args,layer);
+  }
+
+
+  void _draw(const DrawArgs &args) {
+    std::shared_ptr<Font> font=APP->window->loadFont(fontPath);
+    nvgFillColor(args.vg,nvgRGB(255,255,128));
+    nvgFontFaceId(args.vg,font->handle);
+    nvgFontSize(args.vg,11);
+    nvgTextAlign(args.vg,NVG_ALIGN_CENTER|NVG_ALIGN_MIDDLE);
+    nvgText(args.vg,box.size.x/2,box.size.y/2,label.c_str(),NULL);
+  }
+};
 #define MHEIGHT 128.5f
