@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.6250007152557373,
+      "id": 1
+    },
+    {
+      "value": 1.1999996900558472,
+      "id": 2
+    },
+    {
+      "value": 4.0749993324279785,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "\ninstr main\nisine ftgenonce 0,0,2^15,10,1\nicps chnget sprintf(\"FREQ%d\",p4)\n\niamp = 0.7\nkpick = 0.02\niplk = 0.2\nidamp = 30\nifilt = 1000\n\naxcite oscil 1, 1, isine\nasig wgpluck icps, iamp, kpick, iplk, idamp, ifilt, axcite\naenv madsr 0.001,0,1,0.2\nasig dcblock2 asig*aenv\nouts asig, asig\nendin\n"
+  }
+}

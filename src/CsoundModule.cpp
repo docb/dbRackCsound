@@ -303,19 +303,19 @@ struct CompileButton : MLEDM {
 
 
 struct CsoundModuleWidget : ModuleWidget {
-	CsoundModuleWidget(CsoundModule* module) {
+	CsoundModuleWidget(CsoundModule* module,const std::string &svgFile="res/CsoundModule.svg") {
 		setModule(module);
-		setPanel(createPanel(asset::plugin(pluginInstance, "res/CsoundModule.svg")));
+		setPanel(createPanel(asset::plugin(pluginInstance, svgFile)));
 
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    if(module && module->NCHNLS==16) {
-      auto text = new DBTextWidget("***",mm2px(Vec(56.f,1.9f)),Vec(30.f,12.f));
-      addChild(text);
-    }
+    //if(module && module->NCHNLS==16) {
+    //  auto text = new DBTextWidget("***",mm2px(Vec(56.f,1.9f)),Vec(30.f,12.f));
+    //  addChild(text);
+    //}
 
     ScrollWidget *scrollWidget=new CSTextScrollWidget();
     scrollWidget->box.size=mm2px(Vec(85,68));
@@ -333,7 +333,7 @@ struct CsoundModuleWidget : ModuleWidget {
     auto gen=createParam<CompileButton<CsoundModule>>(mm2px(Vec(x,y)),module,CsoundModule::COMPILE_BUTTON);
     gen->module=module;
     addParam(gen);
-    addChild(createLightCentered<LargeLight<GreenRedLight>>(mm2px(Vec(35,84)),module,CsoundModule::ERROR_LIGHT));
+    addChild(createLightCentered<LargeLight<GreenRedLight>>(mm2px(Vec(35,83.14f)),module,CsoundModule::ERROR_LIGHT));
     //addParam(createParam<MLED>(mm2px(Vec(x+24,y)),module,CsoundModule::ON_PARAM));
 
     y=96;
@@ -353,7 +353,10 @@ struct CsoundModuleWidget : ModuleWidget {
 
 	}
 };
-
+struct CsoundModuleWidget16 : CsoundModuleWidget {
+  CsoundModuleWidget16(CsoundModule* module) : CsoundModuleWidget(module,"res/CsoundModule16.svg") {
+  }
+};
 
 struct CsoundModuleFX : Module {
   enum ParamId {
@@ -394,7 +397,7 @@ struct CsoundModuleFX : Module {
                           "  ; CODE .... \n"
                           "  aoutL = ainL\n"
                           "  aoutR = ainR\n"
-                          " outs ainL,ainR\n"
+                          " outs aoutL,aoutR\n"
                            "endin\n";
   std::string instrument;
   int compileError=1;
@@ -617,9 +620,9 @@ struct CsoundModuleFX16 : CsoundModuleFX {
 
 struct CsoundModuleWidgetFX : ModuleWidget {
 
-  CsoundModuleWidgetFX(CsoundModuleFX *module) {
+  CsoundModuleWidgetFX(CsoundModuleFX *module,const std::string &svgFile="res/CsoundModuleFX.svg") {
     setModule(module);
-    setPanel(createPanel(asset::plugin(pluginInstance, "res/CsoundModuleFX.svg")));
+    setPanel(createPanel(asset::plugin(pluginInstance, svgFile)));
 
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
@@ -648,8 +651,8 @@ struct CsoundModuleWidgetFX : ModuleWidget {
     auto gen=createParam<CompileButton<CsoundModuleFX>>(mm2px(Vec(x,y)),module,CsoundModuleFX::COMPILE_BUTTON);
     gen->module=module;
     addParam(gen);
-    addChild(createLightCentered<LargeLight<GreenRedLight>>(mm2px(Vec(35,84)),module,CsoundModuleFX::ERROR_LIGHT));
-    addParam(createParam<MLED>(mm2px(Vec(x+37,y)),module,CsoundModuleFX::ON_PARAM));
+    addChild(createLightCentered<LargeLight<GreenRedLight>>(mm2px(Vec(35,83.14)),module,CsoundModuleFX::ERROR_LIGHT));
+    addParam(createParam<MLED>(mm2px(Vec(48,y)),module,CsoundModuleFX::ON_PARAM));
 
     y=96;
     addInput(createInput<SmallPort>(mm2px(Vec(x,y)),module,CsoundModuleFX::IN1));
@@ -667,8 +670,13 @@ struct CsoundModuleWidgetFX : ModuleWidget {
 
   }
 };
+struct CsoundModuleWidget16FX : CsoundModuleWidgetFX {
+  CsoundModuleWidget16FX(CsoundModuleFX* module) : CsoundModuleWidgetFX(module,"res/CsoundModule16FX.svg") {
+
+  }
+};
 
 Model* modelCsoundModule = createModel<CsoundModule, CsoundModuleWidget>("CsoundModule");
-Model* modelCsoundModule16 = createModel<CsoundModule16, CsoundModuleWidget>("CsoundModule16");
+Model* modelCsoundModule16 = createModel<CsoundModule16, CsoundModuleWidget16>("CsoundModule16");
 Model* modelCsoundModuleFX = createModel<CsoundModuleFX, CsoundModuleWidgetFX>("CsoundModuleFX");
-Model* modelCsoundModuleFX16 = createModel<CsoundModuleFX16, CsoundModuleWidgetFX>("CsoundModuleFX16");
+Model* modelCsoundModuleFX16 = createModel<CsoundModuleFX16, CsoundModuleWidget16FX>("CsoundModuleFX16");

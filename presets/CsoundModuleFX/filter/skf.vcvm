@@ -1,0 +1,34 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModuleFX",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 1.7499990463256836,
+      "id": 1
+    },
+    {
+      "value": 3.675001859664917,
+      "id": 2
+    },
+    {
+      "value": -4.0499987602233887,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    },
+    {
+      "value": 1.0,
+      "id": 5
+    }
+  ],
+  "data": {
+    "csd": "\ninstr 1\nainL inch 1\nkcutoff chnget \"P1\"\nkq chnget \"P2\"\nkcutoff scale2 kcutoff,7,14,-10,10\nkfreq pow 2,kcutoff\nkq scale2 kq,1,3,-10,10\naresL skf ainL,kfreq, kq\nouts aresL,aresL\nendin\n"
+  }
+}

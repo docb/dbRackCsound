@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 1.9499995708465576,
+      "id": 1
+    },
+    {
+      "value": 1.5250004529953003,
+      "id": 2
+    },
+    {
+      "value": 0.0,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "instr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkclip chnget \"P1\"\nkclip scale2 kclip,0,1,-10,10\nkskew chnget \"P2\"\nkskew scale2 kskew,-1,1,-10,10\n\nao squinewave a(kfreq),a(kclip),a(kskew),0\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
+  }
+}

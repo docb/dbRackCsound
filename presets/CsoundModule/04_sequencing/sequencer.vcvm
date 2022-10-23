@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.0,
+      "id": 1
+    },
+    {
+      "value": 4.0,
+      "id": 2
+    },
+    {
+      "value": 1.4750000238418579,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "\ninstr 1\nkpos init 0\nivoct[] fillarray 0,0.25,7/12,10/12,1,10/12,7/12,0.25\nkrst chnget \"IN3C1\"\nksync chnget \"IN4C1\"\nif smt(ksync) == 1 then\n  kpos += 1\n  if kpos >= lenarray(ivoct) then\n    kpos = 0\n  endif\nendif\nif smt(krst) == 1 then\n  kpos = 0\nendif\nao = ivoct[kpos]\nao/=5\nouts ao,ao\nendin"
+  }
+}

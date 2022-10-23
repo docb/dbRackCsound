@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 1.7999998331069946,
+      "id": 1
+    },
+    {
+      "value": 5.2500042915344238,
+      "id": 2
+    },
+    {
+      "value": 2.9750001430511475,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "\ninstr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao pluck 0.7, kfreq, i(kfreq), 0, 1, .1, 0.8\nouts ao,ao\nendin\n"
+  }
+}

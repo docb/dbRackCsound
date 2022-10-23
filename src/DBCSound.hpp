@@ -2,6 +2,38 @@
 #ifndef DBRACKCSOUND_DBCSOUND_HPP
 #define DBRACKCSOUND_DBCSOUND_HPP
 #include "csound.hpp"
+#include "OpcodeBase.hpp"
+
+struct SMT : csound::OpcodeBase<SMT> {
+  MYFLT *out;
+  MYFLT *kv;
+  double onThresh;
+  double offThresh;
+  bool state=true;
+  int init(CSOUND *csound) {
+    state=true;
+    onThresh=1.f;
+    offThresh=0.f;
+    return OK;
+  }
+  int kontrol(CSOUND *csound) {
+    MYFLT val = *kv;
+    if(state) {
+      if(val<=offThresh) {
+        state=false;
+      }
+    } else {
+      if(val>=onThresh) {
+        state=true;
+        *out=1;
+        return OK;
+      }
+    }
+    *out=0;
+    return OK;
+  }
+};
+
 
 struct DBCsound {
   MYFLT *in=nullptr;
@@ -25,9 +57,11 @@ struct DBCsound {
     csoundParams->displays=0;
     csound->SetParams(csoundParams);
     csound->SetHostImplementedAudioIO(1,0);
+    csound->AppendOpcode("smt",sizeof(SMT),0,3,"k","k",(int (*)(CSOUND *, void *))SMT::init_,(int (*)(CSOUND *, void *))SMT::kontrol_,nullptr);
     csound->Start();
     out=csound->GetSpout();
     in=csound->GetSpin();
+
   }
 
   void resetCsound(int ksmps,int nchnls,float sr) {
@@ -37,7 +71,10 @@ struct DBCsound {
   }
 
   void bindAudioChannel(const std::string &name,MYFLT **data) {
-    csoundGetChannelPtr(csound->GetCsound(),data,name.c_str(),CSOUND_AUDIO_CHANNEL|CSOUND_INPUT_CHANNEL);
+    int err=csoundGetChannelPtr(csound->GetCsound(),data,name.c_str(),CSOUND_AUDIO_CHANNEL|CSOUND_INPUT_CHANNEL);
+    if(err) {
+      INFO("%s get audio channel failed %d",name.c_str(),err);
+    }
   }
   void bindControlChannel(const std::string &name,MYFLT **data) {
     csoundGetChannelPtr(csound->GetCsound(),data,name.c_str(),CSOUND_CONTROL_CHANNEL|CSOUND_INPUT_CHANNEL);
@@ -55,7 +92,7 @@ struct DBCsound {
   }
 
   void killInstr(double inst) {
-    INFO("Kill %f",inst);
+    //INFO("Kill %f",inst);
     csoundKillInstance(csound->GetCsound(),inst,nullptr,4,1);
   }
   void killAllInstr(double inst) {

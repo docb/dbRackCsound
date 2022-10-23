@@ -2,13 +2,24 @@
 RACK_DIR ?= ../..
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -I /usr/local/include/csound
 CFLAGS +=
 CXXFLAGS +=
 
 # Careful about linking to shared libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine, but they should be added to this plugin's build system.
-LDFLAGS += dep/libcsound64.a dep/libcsnd6.a
+include ../../arch.mk
+ifdef ARCH_MAC
+  FLAGS += -I lib/mac/CsoundLib64.framework/Versions/6.0/Headers
+  #link and deliver csound framework on mac
+  LDFLAGS += -rpath @loader_path/lib/mac -F lib/mac -framework CsoundLib64
+  DISTRIBUTABLES += $(wildcard lib/mac)
+else ifdef ARCH_WIN
+  FLAGS += -I lib/linux/csound
+  LDFLAGS +=  lib/win/libcsound64.a lib/win/libsndfile.a -lws2_32
+else
+  FLAGS += -I lib/linux/csound
+  LDFLAGS += lib/linux/libcsound64.a lib/linux/libcsnd6.a
+endif
 
 # Add .cpp files to the build
 SOURCES += $(wildcard src/*.cpp)

@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.8750009536743164,
+      "id": 1
+    },
+    {
+      "value": 3.6749987602233887,
+      "id": 2
+    },
+    {
+      "value": 2.9750001430511475,
+      "id": 3
+    },
+    {
+      "value": 5.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "instr main\nisine ftgenonce 0,0,2^14,10,1\nkcps  chnget sprintf(\"FREQ%d\",p4)\nkpres chnget \"P1\"\nkrat chnget \"P2\"\nkpres scale2 kpres,1,5,0,10\nkrat scale2 krat,0.025,0,23,0,10\n\nasig wgbow .7, kcps, 2, 0.127236, 6.12723, 0.001,isine,27.5\naenv madsr 0.001,0,1,0.5\nasig = asig*aenv\nouts asig, asig\nendin"
+  }
+}

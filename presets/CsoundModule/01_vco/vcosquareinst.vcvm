@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.5750041007995605,
+      "id": 1
+    },
+    {
+      "value": 0.87500274181365967,
+      "id": 2
+    },
+    {
+      "value": 2.2500004768371582,
+      "id": 3
+    },
+    {
+      "value": 1.2250006198883057,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "\ninstr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkpw chnget sprintf(\"IN1C%d\",p4)\nkpw scale2 kpw,0.01,0.99,-10,10\nao vco2 0.7,kfreq, 2, kpw\nkcutoff chnget \"P1\"\nkres chnget \"P2\"\nkcutoff scale2 kcutoff,7,14,0,10\nkfreq pow 2,kcutoff\nkres scale2 kres,0.01,20,0,10\nkdec chnget \"P4\"\nkdec scale2 kdec,0.001,0.4,0,10\nkfe madsr 0.001,i(kdec),0,0\nkamt chnget \"P3\"\nkfe = kfreq*pow(2,kfe+kamt)\nadummy init 0\nafilt spf ao,adummy,adummy,kfreq+kfe,1/kres\naenv madsr 0.001,0.1,0.4,0.3\nafilt*=aenv \nouts afilt,afilt\nendin\n"
+  }
+}

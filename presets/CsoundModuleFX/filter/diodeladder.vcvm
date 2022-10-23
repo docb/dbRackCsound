@@ -1,0 +1,34 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModuleFX",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 4.3999991416931152,
+      "id": 1
+    },
+    {
+      "value": -1.2749996185302734,
+      "id": 2
+    },
+    {
+      "value": -4.149998664855957,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    },
+    {
+      "value": 1.0,
+      "id": 5
+    }
+  ],
+  "data": {
+    "csd": "\ninstr 1\nainL inch 1\nkcutoff chnget \"P1\"\nkcutoff scale2 kcutoff,7,14,-10,10\nkfreq pow 2,kcutoff\nkQ chnget \"P2\"\nkQ scale2 kQ,0,17,-10,10\nksat chnget \"P3\"\nksat scale2 ksat,0,2,-10,10\nalp diode_ladder ainL,kfreq,kQ,2,ksat\nalp balance alp, ainL\nouts alp,alp\nendin\n"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.8750009536743164,
+      "id": 1
+    },
+    {
+      "value": 3.6749987602233887,
+      "id": 2
+    },
+    {
+      "value": 2.9750001430511475,
+      "id": 3
+    },
+    {
+      "value": 5.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "instr main\nisine ftgenonce 0,0,2^14,10,1\nkcps  chnget sprintf(\"FREQ%d\",p4)\n\nkjet = 0.2\niatt = 0.1\nidetk = 0.1\nkngain = 0.15\nkvibf = 5.925\nkvamp = 0.01\n\nasig wgflute .8, kcps, kjet, iatt, idetk, kngain, kvibf, kvamp, isine, 27.5\nouts asig, asig\nendin"
+  }
+}

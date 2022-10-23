@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 2.5749993324279785,
+      "id": 1
+    },
+    {
+      "value": -2.7500004768371582,
+      "id": 2
+    },
+    {
+      "value": 0.0,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "instr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkpw chnget \"P2\"\nkpw scale2 kpw,0,1,-10,10\nao vco2 0.7,kfreq,2,kpw\nkcutoff chnget \"P1\"\nkcutoff scale2 kcutoff,4,14,-10,10\nkfreq pow 2,kcutoff\nao butterlp ao,kfreq\naenv madsr 0.001,0,1,0.02\nao*=aenv*.3\nouts ao,ao\nendin\n"
+  }
+}

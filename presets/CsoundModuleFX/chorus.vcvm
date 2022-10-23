@@ -1,0 +1,34 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModuleFX",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": -2.2000021934509277,
+      "id": 1
+    },
+    {
+      "value": -0.89999914169311523,
+      "id": 2
+    },
+    {
+      "value": -3.1499993801116943,
+      "id": 3
+    },
+    {
+      "value": 10.0,
+      "id": 4
+    },
+    {
+      "value": 0.0,
+      "id": 5
+    }
+  ],
+  "data": {
+    "csd": "instr 1\nainL inch 1\nainR inch 2\nkdepth chnget \"P1\"\nkdepth scale2 kdepth,0,3,-10,10\n  \nkrate chnget \"P2\"\nkrate scale2 krate,0.1,7,-10,10\n  \nkwidth chnget \"P3\"\nkwidth scale2 kwidth,0,1,-10,10\n  \nkmix chnget \"P4\"\nkmix scale2 kmix,0,1,-10,10\n  \n; from Iain McCurdy  \nkporttime linseg  0,0.001,0.02\nkChoDepth portk kdepth*0.01, kporttime\nkmod1   rspline 0.01,kChoDepth, krate*4+0.01, ((krate*2)+0.01)\nkmod2   rspline kChoDepth,0.01, krate*4+0.01, ((krate*2)+0.01)\nkmod1   limit kmod1,0.0001,1.2\nkmod2   limit kmod2,0.0001,1.2\namod1   interp  kmod1\namod2   interp  kmod2\naCho1   vdelay  ainL, amod1*1000, 1.2*1000  \naCho2   vdelay  ainR, amod2*1000, 1.2*1000\nkpan    rspline 0,1,krate,2*krate*0.5\nkpan    limit kpan,0,1\napan    interp  kpan\naChoL   = (aCho1*apan)+(aCho2*(1-apan))\naChoR   = (aCho2*apan)+(aCho1*(1-apan))\naChoL   ntrpol  aChoL,aCho1,kwidth \naChoR   ntrpol  aChoR,aCho2,kwidth\naoutL   ntrpol  ainL*0.6, aChoL*0.6, kmix\naoutR   ntrpol  ainR*0.6, aChoR*0.6, kmix \nouts  aoutL,aoutR\nendin\n\n\n"
+  }
+}

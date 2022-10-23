@@ -1,0 +1,34 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModuleFX",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 0.39999818801879883,
+      "id": 1
+    },
+    {
+      "value": 1.1500014066696167,
+      "id": 2
+    },
+    {
+      "value": -1.8249996900558472,
+      "id": 3
+    },
+    {
+      "value": 10.0,
+      "id": 4
+    },
+    {
+      "value": 0.0,
+      "id": 5
+    }
+  ],
+  "data": {
+    "csd": "; from Jeanette C.\ninstr 1\nainL inch 1\nkfx chnget \"P1\"\nkfx scale2 kfx,0,1,0,10\n  \nkamt chnget \"P2\"\nkamt scale2 kamt,0,1,0,10\n\nkWet = linlin(kfx, 0, .75)                                                                          \nkDry = linlin(kfx, 1, .25)                                                                          \n  \niTri = ftgenonce(0, 0, 32768, 7, 0, 16384, 1, 16384, 0)                                             \nkDepth = linlin(kamt, .001, .012)                                                                \nkRate = linlin(kamt, 3, .3)                                                                      \naLFO1 = oscil(kDepth, kRate, iTri)                                                                  \naLFO2 = kDepth - aLFO1                                                                              \naChorus1 = flanger(ainL, aLFO1+.01, 0, .6)                                                       \naChorus2 = flanger(ainL, aLFO2+.01, 0, .6)                                                       \naoutL = ainL*kDry + (aChorus1 - aChorus2)*kWet                                                   \naoutR = ainL*kDry + (aChorus2 - aChorus1)*kWet              \nouts aoutL,aoutR\nendin\n\n\n"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModule",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": -0.5000007152557373,
+      "id": 1
+    },
+    {
+      "value": 5.2500042915344238,
+      "id": 2
+    },
+    {
+      "value": 2.9750001430511475,
+      "id": 3
+    },
+    {
+      "value": 3.474998950958252,
+      "id": 4
+    }
+  ],
+  "data": {
+    "csd": "gitab ftgen 1,0,2^16+1,7,0,2^13,-1,2^13,0,2^13,1,2^13,0,2^13,1,2^13,0,2^13,-1,2^13,0\ngi_bw vco2init -1, 10000, 1.05, 128, 2^16, 1\n\ninstr main\n  kfreq chnget sprintf(\"FREQ%d\",p4)\n  ao vco2 0.7,kfreq, 14, 0,0,0.3\n  aenv madsr 0.001,0,1,0.02\n  ao*=aenv*0.3\n  outs ao,ao\nendin\n\n\nturnon \"gentrig\"\ninstr gentrig\n   kseed chnget \"P4\"\n   km metro 1\n   kseed samphold kseed, km\n   ktrig changed kseed\n   if ktrig == 1 then\n     schedulek \"gentab2\",0,-1, kseed\n   endif\nendin\n\ninstr gentab2\n  seed p4*10000\n  ilen = 16\n  ivals[] init (ilen)*2+1\n  indx = 0\n  isteplen=2^13\n  while indx<ilen*2 do\n    ivals[indx] random -1,1\n    indx += 1\n    if indx%4=1 then\n      ivals[indx]=0\n    else\n      ivals[indx]=isteplen\n    endif\n    indx += 1   \n  od\n  ivals[indx] random -1,1\n  printarray ivals\n  gitab ftgen 1,0,2^16,7,ivals\n  gi_bw vco2init -1, 10000, 1.05, 128, 2^16, 1\n  turnoff\nendin\n"
+  }
+}

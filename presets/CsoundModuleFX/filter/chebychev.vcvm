@@ -1,0 +1,34 @@
+{
+  "plugin": "dbRackCsound",
+  "model": "CsoundModuleFX",
+  "version": "2.0.0",
+  "params": [
+    {
+      "value": 0.0,
+      "id": 0
+    },
+    {
+      "value": 1.6749999523162842,
+      "id": 1
+    },
+    {
+      "value": 0.0,
+      "id": 2
+    },
+    {
+      "value": 0.02500000037252903,
+      "id": 3
+    },
+    {
+      "value": 0.0,
+      "id": 4
+    },
+    {
+      "value": 1.0,
+      "id": 5
+    }
+  ],
+  "data": {
+    "csd": "\ninstr 1\nainL inch 1\nkcutoff chnget \"P1\"\nkcutoff scale2 kcutoff,7,14,-10,10\nkfreq pow 2,kcutoff\n; Chebychev type 1 with 2 poles\nalp clfilt ainL,kfreq, 0, 2, 1\nouts alp,alp\nendin\n"
+  }
+}
