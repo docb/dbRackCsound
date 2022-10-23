@@ -32,6 +32,9 @@ There are further examples provided int the factory presets.
 **CsoundFX**: This module is designed for processing sound. 
 It provides two monophonic audio inputs (for polyphonic use Csound16FX),
 which can be accessed via the inch opcode and two monophonic outputs.
+CsoundFX must be turned on with the On Knob to start working. Currently the instrument is turnoff when recompiling
+and must be turned on manually.
+
 Here an example: 
 
 ```csound-orc
@@ -50,4 +53,12 @@ endin
 
 There are further examples provided int the factory presets.
 
-Here a small demo:
+Here a small demo. For the sequencer (top left) there is a special built in opcode *smt* available which provides a Schmitt Trigger for processing the clock signal. The bottom line shows some "manual" written effects - chorus, delay, reverb.
+
+
+https://user-images.githubusercontent.com/1134412/197388214-8e12ffdf-dba5-4715-940a-09e9f547de96.mp4
+
+
+
+
+
