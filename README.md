@@ -4,6 +4,8 @@
 
 A csound module for VCVRack v2.
 
+**NOTE: Windows is not supported yet as it is not currently buildable with the vcv rack tool chain.**
+
 **Csound**: This module is designed for generating sound. It provides a V/Oct input and a
 Gate input (polyphonic). A Gate will activate the instrument 1 with the fractional instrument
 number 1 + channel/100 so that 16 polyphonic voices can be played. The channel number is passed 
