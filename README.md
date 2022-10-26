@@ -4,6 +4,8 @@
 
 A csound module for VCVRack v2.
 
+**NOTE: Windows is not supported yet as it is not currently buildable with the vcv rack tool chain.**
+
 **Csound**: This module is designed for generating sound. It provides a V/Oct input and a
 Gate input (polyphonic). A Gate will activate the instrument 1 with the fractional instrument
 number 1 + channel/100 so that 16 polyphonic voices can be played. The channel number is passed 
@@ -32,6 +34,9 @@ There are further examples provided int the factory presets.
 **CsoundFX**: This module is designed for processing sound. 
 It provides two monophonic audio inputs (for polyphonic use Csound16FX),
 which can be accessed via the inch opcode and two monophonic outputs.
+CsoundFX must be turned on with the On Knob to start working. Currently the instrument is turnoff when recompiling
+and must be turned on manually.
+
 Here an example: 
 
 ```csound-orc
@@ -50,4 +55,12 @@ endin
 
 There are further examples provided int the factory presets.
 
-Here a small demo:
+Here a small demo. For the sequencer (top left) there is a special built in opcode *smt* available which provides a Schmitt Trigger for processing the clock signal. The bottom line shows some "manual" written effects - chorus, delay, reverb.
+
+
+https://user-images.githubusercontent.com/1134412/197388214-8e12ffdf-dba5-4715-940a-09e9f547de96.mp4
+
+
+
+
+
