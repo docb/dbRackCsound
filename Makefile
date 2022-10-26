@@ -7,7 +7,7 @@ CXXFLAGS +=
 
 # Careful about linking to shared libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine, but they should be added to this plugin's build system.
-include ../../arch.mk
+include $(RACK_DIR)/arch.mk
 ifdef ARCH_MAC
   FLAGS += -I lib/mac/CsoundLib64.framework/Versions/6.0/Headers
   #link and deliver csound framework on mac
@@ -15,7 +15,7 @@ ifdef ARCH_MAC
   DISTRIBUTABLES += $(wildcard lib/mac)
 else ifdef ARCH_WIN
   FLAGS += -I lib/linux/csound
-  LDFLAGS +=  lib/win/libcsound64.a lib/win/libsndfile.a -lws2_32
+  LDFLAGS += -Wl,--export-all-symbols lib/win/libcsound64.a lib/win/libsndfile.a -lws2_32
 else
   FLAGS += -I lib/linux/csound
   LDFLAGS += lib/linux/libcsound64.a lib/linux/libcsnd6.a
