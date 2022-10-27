@@ -2,7 +2,7 @@
 
 ![](images/csound1.png?raw=true)
 
-A csound module for VCVRack v2.
+Some Csound modules for VCVRack v2.
 
 **Csound**: This module is designed for generating sound. It provides a V/Oct input and a
 Gate input (polyphonic). A Gate will activate the instrument 1 with the fractional instrument
@@ -12,7 +12,7 @@ in the p4 parameter of the instrument
 Note that the outputs are summed up in this variant, 
 so OutL and OutR are monophonic. For polyphonic outputs **Csound16** can be used - which needs significant more CPU.
 
-There are fixed defined csound channel names for communication between VCVRack and Csound:
+There are fixed defined Csound channel names for communication between VCVRack and Csound:
 - FREQ[1-16] 16 special control rate channels providing the frequency computed from the V/Oct input where C4 = 0V
 - IN[1-4]C[1-16]  4x16 input control rate channels providing the values of the 4 inputs IN[1-4]
 - P[1-4] 4 control rate channels providing the input of the 4 knobs 
@@ -26,14 +26,13 @@ ao vco2 0.7,kfreq
 outs ao,ao
 endin
 ```
-
-There are further examples provided int the factory presets.
+See also further examples provided in the factory presets.
 
 **CsoundFX**: This module is designed for processing sound. 
 It provides two monophonic audio inputs (for polyphonic use Csound16FX),
 which can be accessed via the inch opcode and two monophonic outputs.
-CsoundFX must be turned on with the On Knob to start working. Currently the instrument is turnoff when recompiling
-and must be turned on manually.
+In CsoundFX the instrument 1 must be turned on with the On Knob. 
+Currently the instrument 1 is turned off after (re-)compiling and must be turned on manually.
 
 Here an example: 
 
@@ -59,6 +58,5 @@ Here a small demo. For the sequencer (top left) there is a special built in opco
 https://user-images.githubusercontent.com/1134412/197388214-8e12ffdf-dba5-4715-940a-09e9f547de96.mp4
 
 
-
-
-
+**LICENCE**
+Csound is licensed under GLPL
