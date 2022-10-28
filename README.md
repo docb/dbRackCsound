@@ -28,6 +28,21 @@ endin
 ```
 See also further examples provided in the factory presets.
 
+**Csound16**
+This module behaves like Csound but it has polyphonic outputs. In order to use them
+the example above looks like this:
+```csound-orc
+instr 1
+kfreq chnget sprintf("FREQ%d",p4)
+ao vco2 0.7,kfreq
+outch p4*2-1,ao,p4*2,ao
+endin
+```
+Hint: Csound 16 provides 32 channels ranging von number 1 to 32 and which are interleaved for stereo.
+So the first left channel is 1 and the last right channel is 32.
+
+
+
 **CsoundFX**: This module is designed for processing sound. 
 It provides two monophonic audio inputs (for polyphonic use Csound16FX),
 which can be accessed via the inch opcode and two monophonic outputs.
@@ -54,6 +69,25 @@ In CsoundFX the instrument 1 must be turned on with the On Knob.
 Currently the instrument 1 is turned off after (re-)compiling and must be turned on manually.
 (Using the turnon opcode can cause starting intrument 1 multiple times when recompiling which is not intended.
 There should be a solution in future versions).
+
+**Csound16FX**:
+Csound16FX behaves like Csound16 but has polyphonic inputs and outputs. The filter example looks like this:
+
+```csound-orc
+instr 1
+  ainL inch p4*2-1
+  ainR inch p4*2
+  kcutoff chnget "P1"
+  kres chnget "P2"
+  kcutoff scale2 kcutoff,7,14,-10,10
+  kfreq pow 2,kcutoff
+  kres scale2 kres,0,1,-10,10
+  aresL moogvcf2 ainL, kfreq, kres
+  aresL balance aresL,ainL
+  outch p4*2-1,aresL,p4*2,aresR
+endin
+```
+
 
 
 Here a small demo. For the sequencer (top left) there is a special built in opcode *smt* available which provides a Schmitt Trigger for processing the clock signal. The bottom line shows some "manual" written effects - chorus, delay, reverb.
