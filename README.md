@@ -97,4 +97,5 @@ https://user-images.githubusercontent.com/1134412/197388214-8e12ffdf-dba5-4715-9
 
 
 **LICENCE**
-Csound is licensed under GLPL
+
+Csound is licensed under LGPL
