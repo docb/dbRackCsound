@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nisine ftgenonce 0,0,2^15,10,1\nicps chnget sprintf(\"FREQ%d\",p4)\n\niamp = 0.7\nkpick = 0.02\niplk = 0.2\nidamp = 30\nifilt = 1000\n\naxcite oscil 1, 1, isine\nasig wgpluck icps, iamp, kpick, iplk, idamp, ifilt, axcite\naenv madsr 0.001,0,1,0.2\nasig dcblock2 asig*aenv\nouts asig, asig\nendin\n"
+    "csd": "gisine ftgen 0,0,2^15,10,1\n\ninstr 1\nicps chnget sprintf(\"FREQ%d\",p4)\n\niamp = 0.7\nkpick = 0.02\niplk = 0.2\nidamp = 30\nifilt = 1000\n\naxcite oscil 1, 1, gisine\nasig wgpluck icps, iamp, kpick, iplk, idamp, ifilt, axcite\naenv madsr 0.001,0,1,0.2\nasig dcblock2 asig*aenv\nouts asig, asig\nendin\n"
   }
 }

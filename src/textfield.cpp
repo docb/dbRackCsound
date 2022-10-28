@@ -36,6 +36,16 @@ struct MTextFieldPasteItem : ui::MenuItem {
     APP->event->setSelectedWidget(textField);
   }
 };
+struct MTextFieldDeleteItem : ui::MenuItem {
+  WeakPtr <MTextField> textField;
+
+  void onAction(const ActionEvent &e) override {
+    if(!textField)
+      return;
+    textField->deleteSelection();
+    APP->event->setSelectedWidget(textField);
+  }
+};
 
 
 struct MTextFieldSelectAllItem : ui::MenuItem {
@@ -485,6 +495,7 @@ std::string MTextField::getSelectedText() {
 }
 
 void MTextField::insertText(std::string text) {
+  std::replace( text.begin(), text.end(), '\r', ' ');
   bool changed=false;
   if(cursor!=selection) {
     // Delete selected text
@@ -523,7 +534,9 @@ void MTextField::pasteClipboard(bool menu) {
     return;
   insertText(newText);
 }
-
+void MTextField::deleteSelection(bool menu) {
+  insertText("");
+}
 void MTextField::cursorToPrevWord() {
   size_t pos=text.rfind(' ',std::max(cursor-2,0));
   if(pos==std::string::npos)
@@ -542,28 +555,33 @@ void MTextField::cursorToNextWord() {
 void MTextField::createContextMenu() {
   menu=createMenu();
 
-  MTextFieldCutItem *cutItem=new MTextFieldCutItem;
+  auto *cutItem=new MTextFieldCutItem;
   cutItem->text="Cut";
   cutItem->rightText=RACK_MOD_CTRL_NAME
   "+X";
   cutItem->textField=this;
   menu->addChild(cutItem);
 
-  MTextFieldCopyItem *copyItem=new MTextFieldCopyItem;
+  auto *copyItem=new MTextFieldCopyItem;
   copyItem->text="Copy";
   copyItem->rightText=RACK_MOD_CTRL_NAME
   "+C";
   copyItem->textField=this;
   menu->addChild(copyItem);
 
-  MTextFieldPasteItem *pasteItem=new MTextFieldPasteItem;
+  auto *pasteItem=new MTextFieldPasteItem;
   pasteItem->text="Paste";
   pasteItem->rightText=RACK_MOD_CTRL_NAME
   "+V";
   pasteItem->textField=this;
   menu->addChild(pasteItem);
 
-  MTextFieldSelectAllItem *selectAllItem=new MTextFieldSelectAllItem;
+  auto *deleteItem=new MTextFieldDeleteItem;
+  deleteItem->text="Delete";
+  deleteItem->textField=this;
+  menu->addChild(deleteItem);
+
+  auto *selectAllItem=new MTextFieldSelectAllItem;
   selectAllItem->text="Select all";
   selectAllItem->rightText=RACK_MOD_CTRL_NAME
   "+A";

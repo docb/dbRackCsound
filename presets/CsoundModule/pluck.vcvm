@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao pluck 0.7, kfreq, i(kfreq), 0, 1, .1, 0.8\nouts ao,ao\nendin\n"
+    "csd": "\ninstr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao pluck 0.7, kfreq, i(kfreq), 0, 1, .1, 0.8\nouts ao,ao\nendin\n"
   }
 }

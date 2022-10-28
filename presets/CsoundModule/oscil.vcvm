@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nitab ftgenonce 0,0,2^16,10,1,0.5,0.33,\\\n               0.25,0.166,0.142,0.125\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao oscil 0.5,kfreq,itab\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
+    "csd": "gitab ftgen 0,0,2^16,10,1,0.5,0.33,\\\n               0.25,0.166,0.142,0.125\n\ninstr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao oscil 0.5,kfreq,gitab\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
   }
 }

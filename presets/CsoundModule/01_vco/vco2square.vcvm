@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkpw chnget \"P1\"\nkpw scale2 kpw,0.01,0.99,-10,10\nao vco2 0.7,kfreq, 2, kpw\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
+    "csd": "\ninstr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkpw chnget \"P1\"\nkpw scale2 kpw,0.01,0.99,-10,10\nao vco2 0.7,kfreq, 2, kpw\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
   }
 }

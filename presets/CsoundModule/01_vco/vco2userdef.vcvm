@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "gitab ftgen 1,0,2^16+1,7,0.5,2^14,0.25,\\\n  0,1,2^14,0.5,0,-0.5,2^14,0.25,0,-1,\\\n  2^14,-0.5\ngi_bw vco2init -1, 10000, 1.05, 128, 2^16, 1\n\ninstr main\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao vco2 0.7,kfreq, 14, 0,0,0.3\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
+    "csd": "gitab ftgen 1,0,2^16+1,7,0.5,2^14,0.25,\\\n  0,1,2^14,0.5,0,-0.5,2^14,0.25,0,-1,\\\n  2^14,-0.5\ngi_bw vco2init -1, 10000, 1.05, 128, 2^16, 1\n\ninstr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nao vco2 0.7,kfreq, 14, 0,0,0.3\naenv madsr 0.001,0,1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
   }
 }

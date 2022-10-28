@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nifn ftgenonce 1,0,2^15,10,1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkv chnget \"P1\"\nkv scale2 kv,0,64,0,10\nktilt chnget \"P2\"\nktilt scale2 ktilt,0,199,0,10\nkdepth chnget \"P3\"\nkdepth scale2 kdepth,0,0.2,0,10\nao fmvoice .5, kfreq, kv, ktilt, kdepth, 6\naenv madsr 0.001,0.53,0.1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
+    "csd": "\ninstr 1\nkfreq chnget sprintf(\"FREQ%d\",p4)\nkv chnget \"P1\"\nkv scale2 kv,0,64,0,10\nktilt chnget \"P2\"\nktilt scale2 ktilt,0,199,0,10\nkdepth chnget \"P3\"\nkdepth scale2 kdepth,0,0.2,0,10\nao fmvoice .5, kfreq, kv, ktilt, kdepth, 6\naenv madsr 0.001,0.53,0.1,0.02\nao*=aenv \nouts ao,ao\nendin\n"
   }
 }

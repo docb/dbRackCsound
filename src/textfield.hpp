@@ -78,6 +78,8 @@ struct MTextField : OpaqueWidget {
 
   virtual void pasteClipboard(bool menu=true);
 
+  virtual void deleteSelection(bool menu=true);
+
   void cursorToPrevWord();
 
   void cursorToNextWord();

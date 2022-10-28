@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "instr main\nisine ftgenonce 0,0,2^14,10,1\nkcps  chnget sprintf(\"FREQ%d\",p4)\n\nkjet = 0.2\niatt = 0.1\nidetk = 0.1\nkngain = 0.15\nkvibf = 5.925\nkvamp = 0.01\n\nasig wgflute .8, kcps, kjet, iatt, idetk, kngain, kvibf, kvamp, isine, 27.5\nouts asig, asig\nendin"
+    "csd": "gisine ftgen 0,0,2^14,10,1\ninstr 1\nkcps  chnget sprintf(\"FREQ%d\",p4)\n\nkjet = 0.2\niatt = 0.1\nidetk = 0.1\nkngain = 0.15\nkvibf = 5.925\nkvamp = 0.01\n\nasig wgflute .8, kcps, kjet, iatt, idetk, kngain, kvibf, kvamp, isine, 27.5\nouts asig, asig\nendin"
   }
 }

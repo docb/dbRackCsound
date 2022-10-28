@@ -3,6 +3,9 @@
 #define DBRACKCSOUND_DBCSOUND_HPP
 #include "csound.hpp"
 #include "OpcodeBase.hpp"
+extern "C" {
+extern int init_static_modules(CSOUND *);
+};
 
 struct SMT : csound::OpcodeBase<SMT> {
   MYFLT *out;
@@ -49,6 +52,7 @@ struct DBCsound {
   void initCsound(int ksmps,int nchnls,float sr) {
     csound->SetOption((char *)"-n");
     csound->SetOption((char *)"-dm0");
+    init_static_modules(csound->GetCsound());
     auto *csoundParams=new CSOUND_PARAMS();
     csoundParams->sample_rate_override=sr;
     csoundParams->ksmps_override=ksmps;

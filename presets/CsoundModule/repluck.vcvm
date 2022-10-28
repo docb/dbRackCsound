@@ -25,6 +25,6 @@
     }
   ],
   "data": {
-    "csd": "\ninstr main\nitab ftgenonce 0,0,2^15,10,1\niplk  = 0.2\nkamp  = .8\nicps  chnget sprintf(\"FREQ%d\",p4)\nkrefl chnget \"P1\"\nkpick chnget \"P2\"\nkrefl scale2 krefl,0,1,0,10\nkpick scale2 kpick,0,1,0,10\n\naxcite oscil 1, 1, itab\nasig repluck iplk, kamp, icps, kpick, krefl, axcite\naenv madsr 0.002,0,1,0.5\nasig dcblock2 asig*aenv\nouts asig, asig\nendin\n"
+    "csd": "gitab ftgen 0,0,2^15,10,1\n\ninstr 1\niplk  = 0.2\nkamp  = .8\nicps  chnget sprintf(\"FREQ%d\",p4)\nkrefl chnget \"P1\"\nkpick chnget \"P2\"\nkrefl scale2 krefl,0,1,0,10\nkpick scale2 kpick,0,1,0,10\n\naxcite oscil 1, 1, gitab\nasig repluck iplk, kamp, icps, kpick, krefl, axcite\naenv madsr 0.002,0,1,0.5\nasig dcblock2 asig*aenv\nouts asig, asig\nendin\n"
   }
 }
