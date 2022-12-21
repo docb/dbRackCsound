@@ -458,6 +458,10 @@ void MTextField::onSelectKey(const SelectKeyEvent &e) {
     while(py>scroll->box.size.y-24+scroll->offset.y) scroll->offset.y+=10;
     while(py<scroll->offset.y) scroll->offset.y-=10;
     if(scroll->offset.y<0) scroll->offset.y = 0;
+
+    while(px>scroll->box.size.x-24+scroll->offset.x) scroll->offset.x+=10;
+    while(px<scroll->offset.x) scroll->offset.x-=10;
+    if(scroll->offset.x<0) scroll->offset.x = 0;
     assert(0<=cursor);
     assert(cursor<=(int)text.size());
     assert(0<=selection);

@@ -29,13 +29,21 @@ struct CsoundModule : Module {
                                    "i 1.11 0 -1 11","i 1.12 0 -1 12","i 1.13 0 -1 13","i 1.14 0 -1 14","i 1.15 0 -1 15","i 1.16 0 -1 16"};
 
   int NCHNLS=1;
-
-  std::string instrument="instr 1\n"
+  std::string instrument;
+  std::string instrument2="instr 1\n"
                          "kfreq chnget sprintf(\"FREQ%d\",p4)\n"
                          "ao vco2 0.7,kfreq\n"
                          "aenv madsr 0.001,0,1,0.02\n"
                          "ao*=aenv \n"
                          "outs ao,ao\n"
+                         "endin\n";
+
+  std::string instrument16="instr 1\n"
+                         "kfreq chnget sprintf(\"FREQ%d\",p4)\n"
+                         "ao vco2 0.7,kfreq\n"
+                         "aenv madsr 0.001,0,1,0.02\n"
+                         "ao*=aenv \n"
+                         "outch p4*2-1,ao,p2*2,ao\n"
                          "endin\n";
 
   int compileError=1;
@@ -59,9 +67,11 @@ struct CsoundModule : Module {
     if(NCHNLS==16) {
       configOutput(LEFT_OUTPUT,"Polyphonic Left");
       configOutput(RIGHT_OUTPUT,"Polyphonic Right");
+      instrument=instrument16;
     } else {
       configOutput(LEFT_OUTPUT,"Left");
       configOutput(RIGHT_OUTPUT,"Right");
+      instrument=instrument2;
     }
     for(int i=0;i<4;i++) {
       configParam(KNOB_PARAM+i,-10,10,0,"P"+std::to_string(i+1));
@@ -73,30 +83,37 @@ struct CsoundModule : Module {
 	}
 
   void bindChannels() {
+    INFO("bind channels PHS");
     for(int i=0;i<16;i++) {
       std::string cname="PHS"+std::to_string(i+1);
       cs.bindAudioChannel(cname.c_str(),&phs[i]);
     }
+    INFO("bind channels FREQ");
     for(int i=0;i<16;i++) {
       std::string cname="FREQ"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&vo[i]);
     }
+    INFO("bind channels IN1");
     for(int i=0;i<16;i++) {
       std::string cname="IN1C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in1[i]);
     }
+    INFO("bind channels IN2");
     for(int i=0;i<16;i++) {
       std::string cname="IN2C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in2[i]);
     }
+    INFO("bind channels IN3");
     for(int i=0;i<16;i++) {
       std::string cname="IN3C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in3[i]);
     }
+    INFO("bind channels IN4");
     for(int i=0;i<16;i++) {
       std::string cname="IN4C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in4[i]);
     }
+    INFO("bind channels P");
     for(int i=0;i<4;i++) {
       std::string cname="P"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&p[i]);
@@ -109,7 +126,6 @@ struct CsoundModule : Module {
   void compile() {
     std::string orc=instrument+"\n";
     compileError=cs.compile(orc);
-
   }
 
   void setText(std::string text) {
@@ -441,22 +457,27 @@ struct CsoundModuleFX : Module {
   }
 
   void bindChannels() {
+    INFO("bind channels IN1");
     for(int i=0;i<16;i++) {
       std::string cname="IN1C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in1[i]);
     }
+    INFO("bind channels IN2");
     for(int i=0;i<16;i++) {
       std::string cname="IN2C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in2[i]);
     }
+    INFO("bind channels IN3");
     for(int i=0;i<16;i++) {
       std::string cname="IN3C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in3[i]);
     }
+    INFO("bind channels IN4");
     for(int i=0;i<16;i++) {
       std::string cname="IN4C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in4[i]);
     }
+    INFO("bind channels P");
     for(int i=0;i<4;i++) {
       std::string cname="P"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&p[i]);
@@ -629,10 +650,10 @@ struct CsoundModuleWidgetFX : ModuleWidget {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    if(module && module->NCHNLS==16) {
-      auto text = new DBTextWidget("***",mm2px(Vec(56.f,1.9f)),Vec(30.f,12.f));
-      addChild(text);
-    }
+    //if(module && module->NCHNLS==16) {
+    //  auto text = new DBTextWidget("***",mm2px(Vec(56.f,1.9f)),Vec(30.f,12.f));
+    //  addChild(text);
+    //}
 
     ScrollWidget *scrollWidget=new CSTextScrollWidget();
     scrollWidget->box.size=mm2px(Vec(85,68));

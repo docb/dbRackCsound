@@ -43,16 +43,24 @@ struct DBCsound {
   MYFLT *out=nullptr;
   Csound *csound;
   DBCsound() {
+    INFO("Init Csound 0");
+    csoundSetOpcodedir("");
     csound=new Csound();
+    INFO("created csound instance version:%d",csound->GetVersion());
   }
   ~DBCsound() {
     csound->Stop();
     delete csound;
   }
   void initCsound(int ksmps,int nchnls,float sr) {
+    INFO("Init Csound 1");
     csound->SetOption((char *)"-n");
     csound->SetOption((char *)"-dm0");
+#ifndef ARCH_WIN
+    INFO("init static modules");
     init_static_modules(csound->GetCsound());
+#endif
+    INFO("init csound params");
     auto *csoundParams=new CSOUND_PARAMS();
     csoundParams->sample_rate_override=sr;
     csoundParams->ksmps_override=ksmps;
@@ -61,11 +69,12 @@ struct DBCsound {
     csoundParams->displays=0;
     csound->SetParams(csoundParams);
     csound->SetHostImplementedAudioIO(1,0);
+    INFO("init smt opcode");
     csound->AppendOpcode("smt",sizeof(SMT),0,3,"k","k",(int (*)(CSOUND *, void *))SMT::init_,(int (*)(CSOUND *, void *))SMT::kontrol_,nullptr);
+    INFO("Start Csound");
     csound->Start();
     out=csound->GetSpout();
     in=csound->GetSpin();
-
   }
 
   void resetCsound(int ksmps,int nchnls,float sr) {
@@ -85,6 +94,7 @@ struct DBCsound {
   }
 
   int compile(const std::string& orc) {
+    INFO("start compiling");
     int compileError=csound->CompileOrc(orc.c_str());
     if(!compileError) {
       INFO("csound compiled ksnps=%d nchnls=%d",csound->GetKsmps(),csound->GetNchnls());
