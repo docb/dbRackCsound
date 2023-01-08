@@ -6,7 +6,12 @@
 extern "C" {
 extern int init_static_modules(CSOUND *);
 };
-
+void MessageCallback(CSOUND* cs, int attr, const char *format, va_list valist)
+{
+  char buf[4096];
+  vsprintf(buf,format, valist);
+  INFO("%s", buf);
+}
 struct SMT : csound::OpcodeBase<SMT> {
   MYFLT *out;
   MYFLT *kv;
@@ -53,6 +58,7 @@ struct DBCsound {
     delete csound;
   }
   void initCsound(int ksmps,int nchnls,float sr) {
+    csound->SetMessageCallback(MessageCallback);
     INFO("Init Csound 1");
     csound->SetOption((char *)"-n");
     csound->SetOption((char *)"-dm0");
@@ -128,8 +134,6 @@ struct DBCsound {
   int getNChnls() {
     return csound->GetNchnls();
   }
-
-
 
 };
 
