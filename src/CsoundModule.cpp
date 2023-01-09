@@ -174,6 +174,37 @@ struct CsoundModule : Module {
     }
   }
 
+  void resetControlInputs() {
+    bool in1Connected=inputs[IN1].isConnected();
+    bool in2Connected=inputs[IN2].isConnected();
+    bool in3Connected=inputs[IN3].isConnected();
+    bool in4Connected=inputs[IN4].isConnected();
+    if(!in1Connected) {
+      int channels=inputs[IN1].getChannels();
+      for(int chn=0;chn<channels;chn++) {
+        in1[chn][0]=0.f;
+      }
+    }
+    if(!in2Connected) {
+      int channels=inputs[IN2].getChannels();
+      for(int chn=0;chn<channels;chn++) {
+        in2[chn][0]=0.f;
+      }
+    }
+    if(!in3Connected) {
+      int channels=inputs[IN3].getChannels();
+      for(int chn=0;chn<channels;chn++) {
+        in3[chn][0]=0.f;
+      }
+    }
+    if(!in4Connected) {
+      int channels=inputs[IN4].getChannels();
+      for(int chn=0;chn<channels;chn++) {
+        in4[chn][0]=0.f;
+      }
+    }
+  }
+
 	void process(const ProcessArgs& args) override {
 
     int channels=0;
@@ -194,6 +225,7 @@ struct CsoundModule : Module {
     if(compileError==0) {
       if(pos==0) {
         setParameters();
+        resetControlInputs();
         cs.perform();
       }
 
@@ -255,6 +287,13 @@ struct CsoundModule : Module {
     cs.resetCsound(32,NCHNLS*2,APP->engine->getSampleRate());
     bindChannels();
     compile();
+  }
+
+  void onPortChange(const PortChangeEvent& e) override {
+    INFO("*** onPortChange ***");
+    // if(false == e.connecting) {
+      resetControlInputs();
+    // }
   }
 
 };
