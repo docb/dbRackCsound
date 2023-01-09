@@ -98,7 +98,9 @@ struct DBCsound {
   void bindControlChannel(const std::string &name,MYFLT **data) {
     csoundGetChannelPtr(csound->GetCsound(),data,name.c_str(),CSOUND_CONTROL_CHANNEL|CSOUND_INPUT_CHANNEL);
   }
-
+  void bindControlOutChannel(const std::string &name,MYFLT **data) {
+    csoundGetChannelPtr(csound->GetCsound(),data,name.c_str(),CSOUND_CONTROL_CHANNEL|CSOUND_OUTPUT_CHANNEL);
+  }
   int compile(const std::string& orc) {
     INFO("start compiling");
     int compileError=csound->CompileOrc(orc.c_str());

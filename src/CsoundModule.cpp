@@ -23,6 +23,8 @@ struct CsoundModule : Module {
   MYFLT *in2[16];
   MYFLT *in3[16];
   MYFLT *in4[16];
+  MYFLT *in1c,*in2c,*in3c,*in4c;
+
   MYFLT *p[4];
   std::vector<std::string> events={"i 1.01 0 -1 1","i 1.02 0 -1 2","i 1.03 0 -1 3","i 1.04 0 -1 4","i 1.05 0 -1 5",
                                    "i 1.06 0 -1 6","i 1.07 0 -1 7","i 1.08 0 -1 8","i 1.09 0 -1 9","i 1.1 0 -1 10",
@@ -98,21 +100,27 @@ struct CsoundModule : Module {
       std::string cname="IN1C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in1[i]);
     }
+    cs.bindControlChannel("IN1CON",&in1c);
+
     INFO("bind channels IN2");
     for(int i=0;i<16;i++) {
       std::string cname="IN2C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in2[i]);
     }
+    cs.bindControlChannel("IN2CON",&in2c);
+
     INFO("bind channels IN3");
     for(int i=0;i<16;i++) {
       std::string cname="IN3C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in3[i]);
     }
+    cs.bindControlChannel("IN3CON",&in3c);
     INFO("bind channels IN4");
     for(int i=0;i<16;i++) {
       std::string cname="IN4C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in4[i]);
     }
+    cs.bindControlChannel("IN4CON",&in4c);
     INFO("bind channels P");
     for(int i=0;i<4;i++) {
       std::string cname="P"+std::to_string(i+1);
@@ -135,9 +143,13 @@ struct CsoundModule : Module {
   void setParameters() {
     bool voctConnected=inputs[VOCT_INPUT].isConnected();
     bool in1Connected=inputs[IN1].isConnected();
+    in1c[0]=in1Connected?1.f:0.f;
     bool in2Connected=inputs[IN2].isConnected();
+    *in2c=in2Connected?1.f:0.f;
     bool in3Connected=inputs[IN3].isConnected();
+    *in3c=in3Connected?1.f:0.f;
     bool in4Connected=inputs[IN4].isConnected();
+    *in4c=in4Connected?1.f:0.f;
     if(voctConnected) {
       int channels=inputs[VOCT_INPUT].getChannels();
       for(int chn=0;chn<channels;chn++) {
@@ -150,11 +162,19 @@ struct CsoundModule : Module {
       for(int chn=0;chn<channels;chn++) {
         in1[chn][0]=inputs[IN1].getVoltage(chn);
       }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in1[chn][0]=0.f;
+      }
     }
     if(in2Connected) {
       int channels=inputs[IN2].getChannels();
       for(int chn=0;chn<channels;chn++) {
         in2[chn][0]=inputs[IN2].getVoltage(chn);
+      }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in2[chn][0]=0.f;
       }
     }
     if(in3Connected) {
@@ -162,11 +182,19 @@ struct CsoundModule : Module {
       for(int chn=0;chn<channels;chn++) {
         in3[chn][0]=inputs[IN3].getVoltage(chn);
       }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in3[chn][0]=0.f;
+      }
     }
     if(in4Connected) {
       int channels=inputs[IN4].getChannels();
       for(int chn=0;chn<channels;chn++) {
         in4[chn][0]=inputs[IN4].getVoltage(chn);
+      }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in4[chn][0]=0.f;
       }
     }
     for(int i=0;i<4;i++) {
@@ -393,6 +421,7 @@ struct CsoundModuleFX : Module {
   MYFLT *in2[16];
   MYFLT *in3[16];
   MYFLT *in4[16];
+  MYFLT *in1c,*in2c,*in3c,*in4c;
   MYFLT *p[4];
   int NCHNLS=1;
   std::vector<std::string> events={"i 1.01 0 -1 1","i 1.02 0 -1 2","i 1.03 0 -1 3","i 1.04 0 -1 4","i 1.05 0 -1 5",
@@ -462,21 +491,25 @@ struct CsoundModuleFX : Module {
       std::string cname="IN1C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in1[i]);
     }
+    cs.bindControlChannel("IN1CON",&in1c);
     INFO("bind channels IN2");
     for(int i=0;i<16;i++) {
       std::string cname="IN2C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in2[i]);
     }
+    cs.bindControlChannel("IN2CON",&in2c);
     INFO("bind channels IN3");
     for(int i=0;i<16;i++) {
       std::string cname="IN3C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in3[i]);
     }
+    cs.bindControlChannel("IN3CON",&in3c);
     INFO("bind channels IN4");
     for(int i=0;i<16;i++) {
       std::string cname="IN4C"+std::to_string(i+1);
       cs.bindControlChannel(cname.c_str(),&in4[i]);
     }
+    cs.bindControlChannel("IN4CON",&in4c);
     INFO("bind channels P");
     for(int i=0;i<4;i++) {
       std::string cname="P"+std::to_string(i+1);
@@ -507,13 +540,21 @@ struct CsoundModuleFX : Module {
 
   void setParameters() {
     bool in1Connected=inputs[IN1].isConnected();
+    in1c[0]=in1Connected?1.f:0.f;
     bool in2Connected=inputs[IN2].isConnected();
+    *in2c=in2Connected?1.f:0.f;
     bool in3Connected=inputs[IN3].isConnected();
+    *in3c=in3Connected?1.f:0.f;
     bool in4Connected=inputs[IN4].isConnected();
+    *in4c=in4Connected?1.f:0.f;
     if(in1Connected) {
       int channels=inputs[IN1].getChannels();
       for(int chn=0;chn<channels;chn++) {
         in1[chn][0]=inputs[IN1].getVoltage(chn);
+      }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in1[chn][0]=0.f;
       }
     }
     if(in2Connected) {
@@ -521,17 +562,29 @@ struct CsoundModuleFX : Module {
       for(int chn=0;chn<channels;chn++) {
         in2[chn][0]=inputs[IN2].getVoltage(chn);
       }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in2[chn][0]=0.f;
+      }
     }
     if(in3Connected) {
       int channels=inputs[IN3].getChannels();
       for(int chn=0;chn<channels;chn++) {
         in3[chn][0]=inputs[IN3].getVoltage(chn);
       }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in3[chn][0]=0.f;
+      }
     }
     if(in4Connected) {
       int channels=inputs[IN4].getChannels();
       for(int chn=0;chn<channels;chn++) {
         in4[chn][0]=inputs[IN4].getVoltage(chn);
+      }
+    } else {
+      for(int chn=0;chn<PORT_MAX_CHANNELS;chn++) {
+        in4[chn][0]=0.f;
       }
     }
     for(int i=0;i<4;i++) {
