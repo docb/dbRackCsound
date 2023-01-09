@@ -15,6 +15,7 @@ so OutL and OutR are monophonic. For polyphonic outputs **Csound16** can be used
 There are fixed defined Csound channel names for communication between VCVRack and Csound:
 - FREQ[1-16] 16 special control rate channels providing the frequency computed from the V/Oct input where C4 = 0V
 - IN[1-4]C[1-16]  4x16 input control rate channels providing the values of the 4 inputs IN[1-4]
+- IN[1-4]CON channels for holding connection status of the inputs i.e. they have the value 1 if the corresponding input is connected 0 otherwise 
 - P[1-4] 4 control rate channels providing the input of the 4 knobs 
 
 So the smallest polyphonic sound generator look like this:

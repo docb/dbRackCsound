@@ -143,7 +143,7 @@ struct CsoundModule : Module {
   void setParameters() {
     bool voctConnected=inputs[VOCT_INPUT].isConnected();
     bool in1Connected=inputs[IN1].isConnected();
-    in1c[0]=in1Connected?1.f:0.f;
+    *in1c=in1Connected?1.f:0.f;
     bool in2Connected=inputs[IN2].isConnected();
     *in2c=in2Connected?1.f:0.f;
     bool in3Connected=inputs[IN3].isConnected();
@@ -540,7 +540,7 @@ struct CsoundModuleFX : Module {
 
   void setParameters() {
     bool in1Connected=inputs[IN1].isConnected();
-    in1c[0]=in1Connected?1.f:0.f;
+    *in1c=in1Connected?1.f:0.f;
     bool in2Connected=inputs[IN2].isConnected();
     *in2c=in2Connected?1.f:0.f;
     bool in3Connected=inputs[IN3].isConnected();
